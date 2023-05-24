@@ -1,31 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/utils/styles.dart';
 
-class EditNoteTextField extends StatelessWidget {
+class SearchViewBodyTextField extends StatelessWidget {
+  final IconData? suffixIcon;
   final int maxLines;
   final String? hintText;
   final TextEditingController? controller;
   final void Function(String?)? onChanged;
-  const EditNoteTextField(
-      {super.key,
-      this.maxLines = 1,
-      this.hintText,
-      this.controller,
-      this.onChanged});
+  final bool? enabled;
+  const SearchViewBodyTextField({
+    super.key,
+    this.maxLines = 1,
+    this.enabled,
+    this.hintText,
+    this.controller,
+    this.onChanged,
+    this.suffixIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 16,
+        right: 16,
+        bottom: 4,
+      ),
       child: TextField(
         onChanged: onChanged,
         controller: controller,
         maxLines: maxLines,
-        style: Styles.textFieldInputStyle,
         decoration: InputDecoration(
+          enabled: enabled!,
+          suffixIcon: Icon(
+            suffixIcon,
+            color: Colors.grey,
+            size: 24,
+          ),
           hintText: hintText,
           focusedBorder: buildBorder(),
           enabledBorder: buildBorder(),
+          disabledBorder: buildBorder(),
         ),
       ),
     );

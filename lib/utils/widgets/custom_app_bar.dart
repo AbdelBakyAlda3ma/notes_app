@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget {
   final String title;
   final IconData icon;
+  final void Function()? onPressed;
   @override
   const CustomAppBar({
     super.key,
     required this.title,
     required this.icon,
+    this.onPressed,
   });
 
   @override
@@ -33,7 +35,9 @@ class CustomAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: IconButton(
-                onPressed: () {},
+                splashColor: Colors.white12,
+                enableFeedback: true,
+                onPressed: onPressed,
                 icon: Icon(
                   icon,
                   color: Colors.grey,

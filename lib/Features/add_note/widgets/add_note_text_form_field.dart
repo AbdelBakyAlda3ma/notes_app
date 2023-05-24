@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/utils/styles.dart';
 
 class AddNoteTextFormField extends StatelessWidget {
   final int maxLines;
   final String? hintText;
+  final void Function(String?)? onSaved;
 
   const AddNoteTextFormField(
-      {super.key, required this.maxLines, this.hintText});
+      {super.key, required this.maxLines, this.hintText, this.onSaved});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: TextFormField(
-        onSaved: (value) {},
+        onSaved: onSaved,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Field is requried';
@@ -20,6 +22,7 @@ class AddNoteTextFormField extends StatelessWidget {
           return null;
         },
         maxLines: maxLines,
+        style: Styles.textFieldInputStyle,
         decoration: InputDecoration(
           hintText: hintText,
           focusedBorder: buildBorder(),

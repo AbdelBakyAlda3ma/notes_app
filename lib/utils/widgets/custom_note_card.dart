@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/Features/edit_note/edit_note_view.dart';
+import 'package:notes_app/cubits/delete_note_cubit/delete_note_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
+
+import '../styles.dart';
 
 class CustomNoteCard extends StatelessWidget {
   final NoteModel note;
@@ -15,7 +19,9 @@ class CustomNoteCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, CupertinoPageRoute(builder: (context) {
-          return const EditNoteView();
+          return EditNoteView(
+            note: note,
+          );
         }));
       },
       child: Container(
@@ -24,7 +30,7 @@ class CustomNoteCard extends StatelessWidget {
         height: 200,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         decoration: BoxDecoration(
-          color: note.color,
+          color: Color(note.color!),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -37,28 +43,25 @@ class CustomNoteCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        note.title,
-                        style: const TextStyle(
-                          fontSize: 32,
-                        ),
+                        note.title!,
+                        style: Styles.titleStyle,
                       ),
                       const SizedBox(
                         height: 16,
                       ),
                       Text(
-                        note.desc,
+                        note.content!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Color(0xff2e4b5b),
-                          fontSize: 20,
-                        ),
+                        style: Styles.contentStyle,
                       ),
                     ],
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    BlocProvider.of<DeleteNoteCubit>(context).deleteNote(note);
+                  },
                   icon: const Icon(
                     Icons.delete,
                     size: 32,
@@ -69,11 +72,8 @@ class CustomNoteCard extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              note.date,
-              style: const TextStyle(
-                color: Color(0xff2e4b5b),
-                fontSize: 18,
-              ),
+              note.date!,
+              style: Styles.dateStyle,
             ),
           ],
         ),
